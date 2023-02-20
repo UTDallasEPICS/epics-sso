@@ -1,0 +1,31 @@
+{
+  "name": "epics-sso",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTDallasEPICS/epics-sso.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTDallasEPICS/epics-sso/issues"
+  },
+  "homepage": "https://github.com/UTDallasEPICS/epics-sso#readme",
+  "dependencies": {
+    "@node-saml/passport-saml": "^4.0.2",
+    "dotenv": "^16.0.3",
+    "file-system-cache": "^2.0.2",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-saml": "^3.2.4",
+    "passport-saml-metadata": "^3.1.1",
+    "passport-wsfed-saml2": "^4.6.1"
+  }
+}
