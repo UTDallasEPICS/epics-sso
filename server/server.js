@@ -55,8 +55,8 @@ let publicRoot = './vue/dist'; // absolute path to vue compiled dist
 // or edit the paths used in the following lines
 let publicCert, privateKey;
 
-    publicCert = fs.readFileSync('../security/cert.pem', 'utf-8');
-    privateKey = fs.readFileSync('../security/privateCert.pem', 'utf-8');
+    publicCert = fs.readFileSync('../cert/cert.pem', 'utf-8');
+    privateKey = fs.readFileSync('../cert/key.pem', 'utf-8');
 
 
 ///////////////////////////////////////////////////////////////////////////////

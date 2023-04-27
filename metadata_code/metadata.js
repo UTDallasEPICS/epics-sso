@@ -11,8 +11,9 @@ const samlStrategy = new SamlStrategy({
   entryPoint: 'https://samltest.id/saml/idp',
   issuer: 'your-app-entity-id',
   callbackUrl: 'https://sso1.upwardsapp.io',
-  privateCert: fs.readFileSync('./security/privateCert.pem', 'utf-8'),
-  cert: fs.readFileSync('./security/cert.pem', 'utf-8'),
+  privateCert: fs.readFileSync('../certs/key.pem', 'utf-8'),
+  decryptionPvk: fs.readFileSync("../certs/key.pem", "utf8"),
+  cert: fs.readFileSync('../certs/cert.pem', 'utf-8'),
 }, (profile, done) => {
   // Handle SAML response
 });
@@ -22,11 +23,10 @@ const samlStrategy = new SamlStrategy({
 
 passport.use('saml', samlStrategy);
 
-const metadata = generateServiceProviderMetadata(
-  samlStrategy.privateCert,
-  samlStrategy.cert,
-  samlStrategy.issuer,
-  samlStrategy.callbackUrl
+const metadata = samlStrategy.generateServiceProviderMetadata(
+  fs.readFileSync('../certs/cert.pem', 'utf-8'),
+  fs.readFileSync('../certs/cert.pem', 'utf-8')
+ 
 );
 
 fs.writeFileSync('metadata.xml', metadata);

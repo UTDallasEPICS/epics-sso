@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="your-app-entity-id" ID="your_app_entity_id">
+  <SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <KeyDescriptor use="encryption">
+      <ds:KeyInfo>
+        <ds:X509Data>
+          <ds:X509Certificate>MIIFJjCCAw4CCQCw1QwNu4rakjANBgkqhkiG9w0BAQsFADBVMQswCQYDVQQGEwJV
+UzELMAkGA1UECAwCVFgxDDAKBgNVBAcMA0RGVzEOMAwGA1UECgwFRVBJQ1MxDDAK
+BgNVBAsMA1NTTzENMAsGA1UEAwwEVEVTVDAeFw0yMzA0MjcyMTI1NTZaFw0yNTEw
+MTMyMTI1NTZaMFUxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJUWDEMMAoGA1UEBwwD
+REZXMQ4wDAYDVQQKDAVFUElDUzEMMAoGA1UECwwDU1NPMQ0wCwYDVQQDDARURVNU
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA25DzWbJbjRzva8foGImc
+GLgGoZP8o2951zoVf3IDdgB0sqxVmyN/pBdcoqh6qXnl2mmzrhlnIesHxxmTokyL
+1TrqpbdrjKsU8nyBJDme8f+7F9yzJo//Ru3QDmbAwFlQGTsk5dmEV119kHBYlPDk
+PoN/NglbYpGcwXyF5KxqjL8Kc+Hk3N+CzRoQ+PSHMJRuQ8jtIPqw1/df2mqIjqfl
+thKHhtMzUQO+4aARHr9GGvAmvsPBaW7uucmtaSmwJbP8fNaHdJXfHcB+2T15AOfb
+3GbNABYugFRj63633SrQgfvlhwCrbEv9WHcfyubHH8/FSAnrawgogrJwzNDitqjN
+fDKnosTuNu5jO7KWT8i5O2XcjYxQsPDonQAt6tN0wiMnaKTVcmHTfgeF8A2fUyAo
+rhq2hWpFl8rtQC5XCVhxWqurNwbJGl4JCP9evouSUjQWruDDvLbwtVby0BDzJN03
+KqdmrHvjxnkusVo0pPia49qgHLvcjY4lARW7QT94Sbqa9jNd9jaJtClO3VdAbaRG
+KILwI83nZ/pxVp6pWL24Wh+/92FjqyxQjIVLv1aLQvu8ni5Uv9J5Zj82pb9fWw16
+8yOn5bVt9zJuHMINVsOGZiHSAq66FvJwHlNUrjdkUPirH7OBOQfS+9KUDBaH07y1
+voRzcPBUejqTfIBozcIXA0MCAwEAATANBgkqhkiG9w0BAQsFAAOCAgEAVshqwlml
+IWGbd4+ZFvSqVFlS/nmuNnDhCejnUPdOD7YCE/UI6c/swuRoneoZZnoYprbK+ls4
+zW7qsTqXfN14MM57i2XnwPUQnvBVJDh+ez9O8hWvTYdNm+xqNEQHCjSi++4v77Is
+8sMyUrWmUYWfDNxEn6qnzty0t8+h1knzM9pa2QdyKZ4XvQfiWrgf8X+05YWw+6SQ
+agwZpKJ14/DjVd1bRdimr1u6CL+hcq5/OtAIVQDXArFbo9qqqxb2fPuQknPqe6ac
+wb7xCWCwJfgl6S3jLIl/GQ8QYaZxsq8+ixlnxG+TxE05uq2DYPvtxhXUkn1whETD
+oNUX9Gp8D0qNU5JtBUY4hiyax3iVpzXY5mw919j0S91gQfBtse14LU8wrn9F/NMy
+UrTFVLj3D39CCZMnfe5mlcfOboPyU5ZIb6aakF8VHeTF+v7MOi3cjR7vW6oHX99f
+luIUucjNe93XEgUKcCUHre+XCSDToLHWMJkUCkbQv4Bg4d6R1q2ev3UvzOoRn25w
+sdAfTE+y0v12/C6TJ7q4YKQhJI/OBO67yY/m+S0LfRD431PDt+dwsnRgdYKvDmZ0
+aWeD+4GbEDC8soP4knUD3pG0cGJoBx1N02Up/dXJwWqK1Z3LRAfnSrDj+xP78Xlt
++PnhEYz9MqkI7oz7PAEF3HE1gaHgTJ5wSZ0=
+</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+      <EncryptionMethod Algorithm="http://www.w3.org/2009/xmlenc11#aes256-gcm"/>
+      <EncryptionMethod Algorithm="http://www.w3.org/2009/xmlenc11#aes128-gcm"/>
+      <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+      <EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+    </KeyDescriptor>
+    <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+    <AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://sso1.upwardsapp.io"/>
+  </SPSSODescriptor>
+</EntityDescriptor>
