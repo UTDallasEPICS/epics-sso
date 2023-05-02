@@ -55,8 +55,8 @@ let publicRoot = './vue/dist'; // absolute path to vue compiled dist
 // or edit the paths used in the following lines
 let publicCert, privateKey;
 
-    publicCert = fs.readFileSync('../cert/cert.pem', 'utf-8');
-    privateKey = fs.readFileSync('../cert/key.pem', 'utf-8');
+    publicCert = fs.readFileSync('../certs/cert.pem', 'utf-8');
+    privateKey = fs.readFileSync('../certs/key.pem', 'utf-8');
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -195,3 +195,6 @@ httpServer.listen(httpPort, function() {
     console.log('Listening for HTTP requests on port ' + httpServer.address().port);
 });
 
+
+
+// http://terrific-wealth.surge.sh/metadata.xml

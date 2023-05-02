@@ -1,7 +1,7 @@
 module.exports = {
     apps : [
         {
-            name: "passport-uicshib",
+            name: "passport-utdshib",
             script: "server.js",
             watch: true,
             ignore_watch : ["node_modules", "vue"],
@@ -9,8 +9,8 @@ module.exports = {
                 "DOMAIN": "sso1.upwardapp.io",
                 "SHIBALIKE": true,
                 "SECRET": "secret",
-                "HTTPPORT": 3010,
-                "HTTPSPORT": 3011
+                "HTTPPORT": 3001,
+                "HTTPSPORT": 3002
             }
         }
     ]
