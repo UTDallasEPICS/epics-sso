@@ -1,10 +1,10 @@
 # Passport UTD - epics-sso
 
-## to run metadata.js metadata_code
+## To run metadata.js metadata_code
 
 ```
 cd metadata_code
-run metadata.js file
+node metadata.js
 ```
 
 ## To run program
@@ -26,7 +26,7 @@ pm2 logs
  pm2 delete passport-utdshib
 ```
 
-#### If you made multiple instances, and want to delete all
+### If you made multiple instances, and want to delete all
 
 ```
 pm2 delete all
