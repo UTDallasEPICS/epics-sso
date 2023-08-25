@@ -38,6 +38,7 @@ var samIdPCert = 'MIIDEjCCAfqgAwIBAgIVAMECQ1tjghafm5OxWDh9hwZfxthWMA0GCSqGSIb3DQ
 'D1JJKSQ3AdhxK/weP3aUPtLxVVJ9wMOQOfcy02l+hHMb6uAjsPOpOVKqi3M8XmcU\n' +
 'ZOpx4swtgGdeoSpeRyrtMvRwdcciNBp9UZome44qZAYH1iqrpmmjsfI9pJItsgWu\n' +
 '3kXPjhSfj1AJGR1l9JGvJrHki1iHTA=='
+// TODO: these should be accepted as configuration options when initializing the library
 
 var samIdPEntryPoint = 'https://samltest.id/saml/idp'
 
@@ -45,6 +46,16 @@ var utdIdPCert = 'MIIDOzCCAiOgAwIBAgIUSwQBiQU7l2qsaU0XGxhXS1s0MgQwDQYJKoZIhvcNAQ
 var utdIdPEntryPoint = 'https://idptest.utdallas.edu/idp/profile/SAML2/Redirect/SSO';
 var strattName = 'utdsaml';
 
+// TODO: default to SAMLtest data, otherwise accept a configuration object
+/* 
+
+const profileAttrs={
+  property: 'defaultValue',
+  ...objectThatMightHaveProperty
+}
+*/
+
+// this doesnt look like correct syntax....
 let profileAttrs = {
 //for utd
 // 'urn:mace:dir:attribute-def':'givenName',
@@ -54,7 +65,7 @@ let profileAttrs = {
 //for SAMLtest testing
 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri' : 'givenName',
 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri' : 'sn',
-'urn:oasis:names:tc:SAML:2.0:attrname-format:uri' :'mail'
+'urn:oasis:names:tc:SAML:2.0:attrname-format:uri' :'mail' // overwrites previouskeys??
 };
 
 function verifyProfile(profile, done) {
@@ -70,7 +81,7 @@ function convertProfileToUser(profile) {
   let idx;
   let keys = Object.keys(profile);
   let key;
-
+  // TODO: use for of syntax, or a reduce
   for (idx = 0; idx < keys.length; ++idx) {
       key = keys[idx];
       niceName = profileAttrs[key];
@@ -78,9 +89,14 @@ function convertProfileToUser(profile) {
           user[niceName] = profile[key];
       }
   }
-
+  // TODO: need to convert this to typescript and define types - what is the type of user??
   return user;
 }
+
+// TODO: note that we ultimately dont want to export this directly,
+// we want to provide express/h3 handlers that a server can integrate which in turn calls these functions
+// although we do also want to expose these just in case
+
 /**
  * Passport Strategy for UIC Shibboleth Authentication
  *
@@ -113,6 +129,7 @@ module.exports.Strategy = function (options) {
 
 util.inherits(module.exports.Strategy, saml.Strategy);
 
+// TODO: what does the metadata route do?
 /**
  * Returns a route implementation for the standard Shibboleth metadata route.
  * common usage:

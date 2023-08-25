@@ -123,7 +123,8 @@ passport.deserializeUser(function(user, done){
 ///////////////////////////////////////////////////////////////////////////////
 // login, login callback, and metadata routes
 //
-
+// TODO: potentially we just need to provide a convinient wrapper for adding these specific handlers
+// to a webserver???
     // UIC Shibboleth authentication routes
 app.get(loginUrl, passport.authenticate(utdshibStrategy.name), utdshib.backToUrl());
 app.post(preAuthUrl + loginCallbackUrl, passport.authenticate(utdshibStrategy.name), utdshib.backToUrl());
