@@ -88,34 +88,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send(`Server Error! ${err.message}`);
 });
 
-const httpsServer = https.createServer(
-  {
-    key: privateKey,
-    cert: publicCert,
-  },
-  app
-);
+app.listen(process.env.PORT, () => {
+  if (!process.env.PORT)
+    console.error("You must specify the port via PORT environment variable!");
 
-httpsServer.listen(httpsPort, () => {
-  console.log(
-    `Listening for HTTPS requests on port ${getServerPort(httpServer)}`
-  );
-});
-
-const httpServer = http.createServer(
-  (req: IncomingMessage, res: ServerResponse) => {
-    const redirUrl = `https://${domain}${
-      httpsPort !== 443 ? `:${httpsPort}` : ""
-    }${req.url}`;
-    res.writeHead(301, { Location: redirUrl });
-    res.end();
-  }
-);
-
-httpServer.listen(httpPort, () => {
-  console.log(
-    `Listening for HTTP requests on port ${getServerPort(
-      httpServer
-    )}, but will auto-redirect to HTTPS`
-  );
+  console.log(`Server is running at http://localhost:${process.env.PORT}`);
 });
