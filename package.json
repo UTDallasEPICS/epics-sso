@@ -23,6 +23,6 @@
     "passport": "^0.6.0",
     "passport-saml": "^3.2.4",
     "passport-uwshib": "^0.1.2",
-    "utdshib": "file:utdshib-6.0.0.tgz"
+    "utdshib": "file:utdshib-7.0.0.tgz"
   }
 }
