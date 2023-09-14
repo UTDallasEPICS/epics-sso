@@ -56,7 +56,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const strategy = new Strategy({
-  entityId: `https://${domain}`,
+  entityId: `${domain}`,
   privateKey: privateKey,
   callbackUrl: loginCallbackUrl,
   domain: domain,
@@ -104,9 +104,9 @@ httpsServer.listen(httpsPort, () => {
 
 const httpServer = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
-    const redirUrl = `https://${domain}${
-      httpsPort !== 443 ? `:${httpsPort}` : ""
-    }${req.url}`;
+    const redirUrl = `${domain}${httpsPort !== 443 ? `:${httpsPort}` : ""}${
+      req.url
+    }`;
     res.writeHead(301, { Location: redirUrl });
     res.end();
   }
