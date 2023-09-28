@@ -44,12 +44,10 @@ app.use(morgan(process.env.LOGFORMAT || "dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: "application/json" }));
 app.use(cookieParser());
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(
   session({
-    secret: fs.readFileSync("./session-secret.txt", "utf-8"),
-    cookie: { secure: true },
-    resave: false, // Add this line
-    saveUninitialized: true, // Add this line
+    secret: process.env.SESSION_SECRET as string,
   })
 );
 app.use(passport.initialize());
@@ -65,22 +63,34 @@ const strategy = new Strategy({
 passport.use(strategy);
 
 passport.serializeUser((user: any, done: any) => {
-  done(null, user);
+  try {
+    done(null, user);
+  } catch (error) {
+    console.error('Serialization Error:', error);
+    done(error);
+  }
 });
 
 passport.deserializeUser((user: any, done: any) => {
-  done(null, user);
+  try {
+    done(null, user);
+  } catch (error) {
+    console.error('Deserialization Error:', error);
+    done(error);
+  }
 });
 
 app.get(loginUrl, passport.authenticate(strategy.name), backToUrl());
-app.post(loginCallbackUrl, passport.authenticate(strategy.name), backToUrl());
+app.post(loginCallbackUrl, passport.authenticate(strategy.name), (req, res) => {
+	return res.redirect("/")
+})
 app.get(urls.metadata, metadataRoute(strategy, publicCert));
 
 app.use(ensureAuth(loginUrl));
 
 app.get("/", (req: Request, res: Response) => {
   const user: any = req.user;
-  res.send(`Hello ${user.displayName}!`);
+  res.send(`Hello ${JSON.stringify(user)}!`);
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
