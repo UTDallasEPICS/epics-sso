@@ -66,7 +66,7 @@ passport.serializeUser((user: any, done: any) => {
   try {
     done(null, user);
   } catch (error) {
-    console.error('Serialization Error:', error);
+    console.error("Serialization Error:", error);
     done(error);
   }
 });
@@ -75,15 +75,35 @@ passport.deserializeUser((user: any, done: any) => {
   try {
     done(null, user);
   } catch (error) {
-    console.error('Deserialization Error:', error);
+    console.error("Deserialization Error:", error);
     done(error);
   }
 });
 
-app.get(loginUrl, passport.authenticate(strategy.name), backToUrl());
+app.get(
+  loginUrl,
+  (req, res, next) => {
+    if (req.query.redirect_url) {
+      console.log(req.query.redirect_url);
+      passport.use(
+        new Strategy({
+          entityId: `https://${domain}`,
+          privateKey: privateKey,
+          callbackUrl: loginCallbackUrl,
+          domain: domain,
+          additionalParams: { RelayState: req.query.redirect_url },
+        })
+      );
+    }
+    return next();
+  },
+  passport.authenticate(strategy.name, { successRedirect: "/" })
+);
+// app.get(loginUrl, passport.authenticate(strategy.name), backToUrl());
 app.post(loginCallbackUrl, passport.authenticate(strategy.name), (req, res) => {
-	return res.redirect("/")
-})
+  if (req.body.RelayState) return res.redirect(req.body.RelayState);
+  else return res.redirect("/");
+});
 app.get(urls.metadata, metadataRoute(strategy, publicCert));
 
 app.use(ensureAuth(loginUrl));
