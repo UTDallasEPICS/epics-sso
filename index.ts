@@ -108,12 +108,6 @@ app.get(urls.metadata, metadataRoute(strategy, publicCert));
 
 app.use(ensureAuth(loginUrl));
 
-function logCookie(cookie) {
-  if (cookie) {
-    console.log(cookie.value);
-  }
-}
-
 // function getCookie(tabs) {
 //   let getting = browser.cookies.get({
 //     url: tabs[0].url,
@@ -125,12 +119,6 @@ function logCookie(cookie) {
 app.get("/", (req: Request, res: Response) => {
   const user: any = req.user;
   res.send(`Hello ${JSON.stringify(user)}!`);
-
-  let getting = browser.cookies.get({
-    url: tabs[0].url,
-    name: "connect.sid",
-  });
-  getting.then(logCookie);
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
