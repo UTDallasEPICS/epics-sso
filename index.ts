@@ -80,6 +80,20 @@ passport.deserializeUser((user: any, done: any) => {
   }
 });
 
+declare module 'express-session' {
+    interface SessionData {
+    authenticated?: boolean;
+    }
+}
+
+function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+    if (req.session && req.session.authenticated) {
+      return next();
+    } else {
+      return res.status(401).send('User is not authenticated');
+    }
+}
+
 app.get(
   loginUrl,
   (req, res, next) => {
@@ -100,11 +114,22 @@ app.get(
   passport.authenticate(strategy.name, { successRedirect: "/" })
 );
 // app.get(loginUrl, passport.authenticate(strategy.name), backToUrl());
-app.post(loginCallbackUrl, passport.authenticate(strategy.name), (req, res) => {
-  if (req.body.RelayState) return res.redirect(req.body.RelayState);
-  else return res.redirect("/");
+app.post(loginCallbackUrl,passport.authenticate(strategy.name), (req: Request, res: Response) => {
+  if (req.isAuthenticated()) {
+    req.session.authenticated = true;
+
+    if (req.body.RelayState) return res.redirect(req.body.RelayState);
+    else return res.redirect("/");
+  } else {
+    return res.status(401).send('Authentication failed');
+  }
 });
+
 app.get(urls.metadata, metadataRoute(strategy, publicCert));
+
+app.get('/check-auth', isAuthenticated, (req: Request, res: Response) => {
+  res.send('The user is authenticated');
+});
 
 app.use(ensureAuth(loginUrl));
 
