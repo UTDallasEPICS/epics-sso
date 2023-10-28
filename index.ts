@@ -90,7 +90,9 @@ function isAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (req.session && req.session.authenticated) {
       return next();
     } else {
-      return res.status(401).send('User is not authenticated');
+      return res.status(200).json({
+        authenticated: false
+      })
     }
 }
 
@@ -128,7 +130,9 @@ app.post(loginCallbackUrl,passport.authenticate(strategy.name), (req: Request, r
 app.get(urls.metadata, metadataRoute(strategy, publicCert));
 
 app.get('/check-auth', isAuthenticated, (req: Request, res: Response) => {
-  res.send('The user is authenticated');
+  res.status(200).json({
+    authenticated: true
+  })
 });
 
 app.use(ensureAuth(loginUrl));
