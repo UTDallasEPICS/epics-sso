@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { Strategy as SAMLStrategy } from "passport-saml";
 
-const utdIdPCert: string = `-----BEGIN CERTIFICATE-----
+import request from 'sync-request';
+const url = 'https://idptest.utdallas.edu/idp/shibboleth'; // Replace with your desired URL
+const keyDescriptor = '<KeyDescriptor use="signing">';
+const certificateStart = '<ds:X509Certificate>';
+const certificateEnd = '</ds:X509Certificate>';
+
+/*const utdIdPCert: string = `-----BEGIN CERTIFICATE-----
 MIIDOzCCAiOgAwIBAgIUSwQBiQU7l2qsaU0XGxhXS1s0MgQwDQYJKoZIhvcNAQEL
 BQAwHzEdMBsGA1UEAwwUaWRwdGVzdC51dGRhbGxhcy5lZHUwHhcNMTgwNTE4MjA0
 NjQ4WhcNMzgwNTE4MjA0NjQ4WjAfMR0wGwYDVQQDDBRpZHB0ZXN0LnV0ZGFsbGFz
@@ -21,7 +27,7 @@ MBxYkSc2v22K54iOV4TQe76nu4GEIqHzy6qx0SzCcY8C6XxIMC5/Ei1kEqG8Kc5n
 g5YLcRVlHNcSXgV4OZjzwFbWe0iTBowJGoEaDi3PNJYnpak0BE3D4LBMiPpwfPCI
 jKqHLsU+tGzjCoNN9hmu
 -----END CERTIFICATE-----
-`;
+`;*/
 const utdIdPEntryPoint: string =
   "https://idptest.utdallas.edu/idp/profile/SAML2/Redirect/SSO";
 
@@ -33,6 +39,23 @@ const profileAttrs: Record<string, string> = {
   sn: "urn:mace:dir:attribute-def:surname",
   mail: "urn:mace:dir:attribute-def:mail",
 };
+
+function getCertificate(): string {
+  const response = request('GET', url);
+  
+  if (response.statusCode === 200) {
+      const responseData = response.getBody('utf8');
+      const fileEndIndex = responseData.length;
+      const keyDescriptorStartIndex = responseData.indexOf(keyDescriptor);
+      const substring = responseData.substring(keyDescriptorStartIndex, fileEndIndex);
+      const certificate = substring.substring(substring.indexOf(certificateStart) + certificateStart.length, substring.indexOf(certificateEnd)).trim();
+      const utdIdPCert: string = `-----BEGIN CERTIFICATE-----\n` + certificate + `\n-----END CERTIFICATE-----\n`;
+      return utdIdPCert;
+  } else {
+      console.error('Error:', `Status Code: ${response.statusCode}`);
+      return "";
+  }
+}
 
 function verifyProfile(profile: any, done: any): void {
   if (!profile) done(new Error("Empty SAML profile returned!"));
@@ -61,11 +84,12 @@ export const urls = {
   metadata: "/metadata.xml",
 };
 
+
 export class Strategy extends SAMLStrategy {
   constructor(options: any) {
     options = options || {};
     options.entryPoint = options.entryPoint || utdIdPEntryPoint;
-    options.cert = options.cert || utdIdPCert;
+    options.cert = options.cert || getCertificate();
     options.identifierFormat = null;
     options.issuer = options.issuer || options.entityId || options.domain;
     options.callbackUrl = `https://${options.domain}/login/callback`;
