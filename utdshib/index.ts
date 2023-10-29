@@ -3,9 +3,6 @@ import { Strategy as SAMLStrategy } from "passport-saml";
 
 import request from 'sync-request';
 const url = 'https://idptest.utdallas.edu/idp/shibboleth'; // Replace with your desired URL
-const keyDescriptor = '<KeyDescriptor use="signing">';
-const certificateStart = '<ds:X509Certificate>';
-const certificateEnd = '</ds:X509Certificate>';
 
 /*const utdIdPCert: string = `-----BEGIN CERTIFICATE-----
 MIIDOzCCAiOgAwIBAgIUSwQBiQU7l2qsaU0XGxhXS1s0MgQwDQYJKoZIhvcNAQEL
@@ -40,8 +37,12 @@ const profileAttrs: Record<string, string> = {
   mail: "urn:mace:dir:attribute-def:mail",
 };
 
-function getCertificate(): string {
+// we are using sync-request instead of async request for performance
+function getIdPCertificate(): string {
   const response = request('GET', url);
+  const keyDescriptor = '<KeyDescriptor use="signing">';
+  const certificateStart = '<ds:X509Certificate>';
+  const certificateEnd = '</ds:X509Certificate>';
   
   if (response.statusCode === 200) {
       const responseData = response.getBody('utf8');
