@@ -10,6 +10,7 @@ const router = Router();
 router.get(
   "/login",
   (req, res, next) => {
+	console.log(strategy._saml?._certToPEM);
     if (req.query.redirect_url) {
       passport.use(
         new Strategy({
