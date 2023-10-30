@@ -54,7 +54,9 @@ router.use(ensureAuth("/login"));
 
 router.get("/", (req: Request, res: Response) => {
   const user: any = req.user;
-  res.send(`Hello ${JSON.stringify(user)}!`);
+  return res.json({
+    user: user,
+  });
 });
 
 export { router };
