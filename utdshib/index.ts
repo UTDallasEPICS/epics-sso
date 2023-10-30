@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Strategy as SAMLStrategy } from "passport-saml";
-
-import request from 'sync-request';
-const url = 'https://idptest.utdallas.edu/idp/shibboleth'; // Replace with your desired URL
+import request from "sync-request";
+const url = "https://idptest.utdallas.edu/idp/shibboleth"; // Replace with your desired URL
 
 /*const utdIdPCert: string = `-----BEGIN CERTIFICATE-----
 MIIDOzCCAiOgAwIBAgIUSwQBiQU7l2qsaU0XGxhXS1s0MgQwDQYJKoZIhvcNAQEL
@@ -39,22 +38,33 @@ const profileAttrs: Record<string, string> = {
 
 // we are using sync-request instead of async request for performance
 function getIdPCertificate(): string {
-  const response = request('GET', url);
+  const response = request("GET", url);
   const keyDescriptor = '<KeyDescriptor use="signing">';
-  const certificateStart = '<ds:X509Certificate>';
-  const certificateEnd = '</ds:X509Certificate>';
-  
+  const certificateStart = "<ds:X509Certificate>";
+  const certificateEnd = "</ds:X509Certificate>";
+
   if (response.statusCode === 200) {
-      const responseData = response.getBody('utf8');
-      const fileEndIndex = responseData.length;
-      const keyDescriptorStartIndex = responseData.indexOf(keyDescriptor);
-      const substring = responseData.substring(keyDescriptorStartIndex, fileEndIndex);
-      const certificate = substring.substring(substring.indexOf(certificateStart) + certificateStart.length, substring.indexOf(certificateEnd)).trim();
-      const utdIdPCert: string = `-----BEGIN CERTIFICATE-----\n` + certificate + `\n-----END CERTIFICATE-----\n`;
-      return utdIdPCert;
+    const responseData = response.getBody("utf8");
+    const fileEndIndex = responseData.length;
+    const keyDescriptorStartIndex = responseData.indexOf(keyDescriptor);
+    const substring = responseData.substring(
+      keyDescriptorStartIndex,
+      fileEndIndex
+    );
+    const certificate = substring
+      .substring(
+        substring.indexOf(certificateStart) + certificateStart.length,
+        substring.indexOf(certificateEnd)
+      )
+      .trim();
+    const utdIdPCert: string =
+      `-----BEGIN CERTIFICATE-----\n` +
+      certificate +
+      `\n-----END CERTIFICATE-----\n`;
+    return utdIdPCert;
   } else {
-      console.error('Error:', `Status Code: ${response.statusCode}`);
-      return "";
+    console.error("Error:", `Status Code: ${response.statusCode}`);
+    return "";
   }
 }
 
@@ -85,12 +95,11 @@ export const urls = {
   metadata: "/metadata.xml",
 };
 
-
 export class Strategy extends SAMLStrategy {
   constructor(options: any) {
     options = options || {};
     options.entryPoint = options.entryPoint || utdIdPEntryPoint;
-    options.cert = options.cert || getCertificate();
+    options.cert = options.cert || getIdPCertificate();
     options.identifierFormat = null;
     options.issuer = options.issuer || options.entityId || options.domain;
     options.callbackUrl = `https://${options.domain}/login/callback`;
