@@ -1,8 +1,6 @@
 import passport from "passport";
 import { Strategy } from "utdshib";
-import { domain, privateKey } from "./config";
-
-const loginCallbackUrl = "/login/callback";
+import { domain, loginCallbackUrl, privateKey } from "./config";
 
 const strategy = new Strategy({
   entityId: `https://${domain}`,

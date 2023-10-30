@@ -17,3 +17,4 @@ export const privateKey: string = fs.readFileSync("./key.pem", "utf-8");
 export const sessionSecret: string = process.env.SESSION_SECRET as string;
 export const logFormat: string = process.env.LOGFORMAT || "dev";
 export const serverPort: number = Number(process.env.PORT) || 3000;
+export const loginCallbackUrl = "/login/callback";

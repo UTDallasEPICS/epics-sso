@@ -2,12 +2,32 @@ import { Router, Request, Response } from "express";
 import passport from "passport";
 import { isAuthenticated } from "./middlewares";
 import { strategy } from "./authentication";
-import { urls, backToUrl, ensureAuth, metadataRoute } from "utdshib";
-import { publicCert } from "./config";
+import { urls, backToUrl, ensureAuth, metadataRoute, Strategy } from "utdshib";
+import { domain, loginCallbackUrl, privateKey, publicCert } from "./config";
 
 const router = Router();
 
-router.get("/login", passport.authenticate(strategy.name), backToUrl());
+router.get(
+  "/login",
+  (req, res, next) => {
+    if (req.query.RelayState) {
+      passport.use(
+        new Strategy({
+          entityId: `https://${domain}`,
+          privateKey: privateKey,
+          callbackUrl: loginCallbackUrl,
+          domain: domain,
+          additionalParams: {
+            RelayState: req.query.RelayState,
+          },
+        })
+      );
+      passport.authenticate(strategy.name);
+      next();
+    }
+  },
+  backToUrl()
+);
 router.post(
   "/login/callback",
   passport.authenticate(strategy.name),
