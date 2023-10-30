@@ -25,6 +25,7 @@ router.get(
     }
     return next();
   },
+	passport.authenticate(strategy.name),
   backToUrl()
 );
 router.post(
@@ -33,6 +34,7 @@ router.post(
   (req: Request, res: Response) => {
     // Your login callback implementation
     if (req.isAuthenticated()) {
+console.log(req.body)	
       req.session.authenticated = true;
       if (req.body.RelayState) return res.redirect(req.body.RelayState);
       else return res.redirect("/");
