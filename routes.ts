@@ -7,6 +7,7 @@ import { domain, loginCallbackUrl, privateKey, publicCert } from "./config";
 
 const router = Router();
 
+router.use("/login", (req, res, next) => {});
 router.get(
   "/login",
   (req, res, next) => {
@@ -22,10 +23,10 @@ router.get(
           },
         })
       );
-      passport.authenticate(strategy.name);
-      next();
+      return next();
     }
   },
+  passport.authenticate(strategy.name),
   backToUrl()
 );
 router.post(
