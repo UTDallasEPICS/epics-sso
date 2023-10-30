@@ -13,9 +13,15 @@ router.post(
   passport.authenticate(strategy.name),
   (req: Request, res: Response) => {
     // Your login callback implementation
+    if (req.isAuthenticated()) {
+      req.session.authenticated = true;
+      if (req.body.RelayState) return res.redirect(req.body.RelayState);
+      else return res.redirect("/");
+    } else {
+      return res.status(401).send("Authentication Failed.");
+    }
   }
 );
-
 router.get(urls.metadata, metadataRoute(strategy, publicCert));
 router.get("/check-auth", isAuthenticated, (req: Request, res: Response) => {
   res.status(200).json({
