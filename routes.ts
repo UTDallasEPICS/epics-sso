@@ -11,7 +11,7 @@ router.use("/login", (req, res, next) => {});
 router.get(
   "/login",
   (req, res, next) => {
-    if (req.query.RelayState) {
+    if (req.query.redirect_url) {
       passport.use(
         new Strategy({
           entityId: `https://${domain}`,
@@ -19,12 +19,12 @@ router.get(
           callbackUrl: loginCallbackUrl,
           domain: domain,
           additionalParams: {
-            RelayState: req.query.RelayState,
+            RelayState: req.query.redirect_url,
           },
         })
       );
-      return next();
     }
+    return next();
   },
   passport.authenticate(strategy.name),
   backToUrl()
