@@ -1,18 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { Strategy as SAMLStrategy } from "passport-saml";
 import request from "sync-request";
-const url = "https://idptest.utdallas.edu/idp/shibboleth"; // Replace with your desired URL
 
+const url = "https://idptest.utdallas.edu/idp/shibboleth";
 const utdIdPEntryPoint: string =
   "https://idptest.utdallas.edu/idp/profile/SAML2/Redirect/SSO";
 
 const strategyName: string = "utdsaml";
 
 const profileAttrs: Record<string, string> = {
-  // ... (same as provided)
-  givenName: "urn:mace:dir:attribute-def:givenName",
-  sn: "urn:mace:dir:attribute-def:surname",
-  mail: "urn:mace:dir:attribute-def:mail",
+  "urn:oid:2.5.4.42": "lastName",
+  "urn:oid:2.5.4.4": "firstName",
+  "urn:oid:0.9.2342.19200300.100.1.3": "email",
 };
 
 // we are using sync-request instead of async request for performance
@@ -54,16 +53,12 @@ function verifyProfile(profile: any, done: any): void {
 
 function convertProfileToUser(profile: any): any {
   const user: any = {};
-  const keys: string[] = Object.keys(profile);
-
-  console.log(
-    `convertProfileToUser - variable - profiel: ${JSON.stringify(profile)}`
-  );
+  const keys: string[] = Object.keys(profile.attributes);
 
   for (const key of keys) {
     const niceName = profileAttrs[key];
     if (niceName) {
-      user[niceName] = profile[key];
+      user[niceName] = profile.attributes[key];
     }
   }
 

@@ -23,10 +23,19 @@ router.get(
           },
         })
       );
+    } else {
+      passport.use(
+        new Strategy({
+          entityId: `https://${domain}`,
+          privateKey: privateKey,
+          callbackUrl: loginCallbackUrl,
+          domain: domain,
+        })
+      );
     }
     return next();
   },
-	passport.authenticate(strategy.name),
+  passport.authenticate(strategy.name),
   backToUrl()
 );
 router.post(
@@ -35,7 +44,7 @@ router.post(
   (req: Request, res: Response) => {
     // Your login callback implementation
     if (req.isAuthenticated()) {
-console.log(req.body)	
+      console.log(req.body);
       req.session.authenticated = true;
       if (req.body.RelayState) return res.redirect(req.body.RelayState);
       else return res.redirect("/");
