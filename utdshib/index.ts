@@ -8,6 +8,7 @@ const utdIdPEntryPoint: string =
 
 const strategyName: string = "utdsaml";
 
+// modify there for the attributes logic for the user information
 const profileAttrs: Record<string, string> = {
   "urn:oid:2.5.4.42": "lastName",
   "urn:oid:2.5.4.4": "firstName",
@@ -15,6 +16,7 @@ const profileAttrs: Record<string, string> = {
 };
 
 // we are using sync-request instead of async request for performance
+// future: if there is a problem, please refer to this first since using sync-request might cause some performance issue that we are not aware of
 function getIdPCertificate(): string {
   const response = request("GET", url);
   const keyDescriptor = '<KeyDescriptor use="signing">';
@@ -35,6 +37,7 @@ function getIdPCertificate(): string {
         substring.indexOf(certificateEnd)
       )
       .trim();
+    // idP Certificate needs to format into this format
     const utdIdPCert: string =
       `-----BEGIN CERTIFICATE-----\n` +
       certificate +
@@ -51,6 +54,8 @@ function verifyProfile(profile: any, done: any): void {
   else done(null, convertProfileToUser(profile));
 }
 
+// modify this code to read the logic from user profiles
+// user profiles might wary with other sso idp but this is specifically for utd idp
 function convertProfileToUser(profile: any): any {
   const user: any = {};
   const keys: string[] = Object.keys(profile.attributes);
