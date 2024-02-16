@@ -6,7 +6,8 @@
 - [ ] package.json
 - [ ] .env
 - [ ] cert.pem
-- [ ] key.pem 
+- [ ] key.pem
+- [ ] decrypted_key.pem 
 
 # How to host the server
 we are using `pm2` as the process manager to keep the server running and `nginx` to route then server port to domain address.
@@ -17,8 +18,12 @@ we are using `pm2` as the process manager to keep the server running and `nginx`
 ```
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365
 ```
-4. run `npm i`
-5. run `tsc`
-6. copy `cert.pem`, `key.pem` and `.env` to `dist` directory
-7. run `node dist/index.js`
+4. generate `decrypted_key.pem` using
+```
+openssl rsa -in key.pem -out decrypted_key.pem
+```
+5. run `npm i`
+6. run `tsc`
+7. copy `cert.pem`, `decrypted_key.pem` and `.env` to `dist` directory
+8. run `node dist/index.js`
 
