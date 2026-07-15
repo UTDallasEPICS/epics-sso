@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EntityDescriptor  xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" entityID="https://idp.utdallas.edu/idp/shibboleth">
+
+    <IDPSSODescriptor errorURL="https://oit.utdallas.edu/helpdesk/" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+
+        <Extensions>
+            <shibmd:Scope regexp="false">utdallas.edu</shibmd:Scope>
+        </Extensions>
+
+        <KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                    <ds:X509Data>
+                        <ds:X509Certificate>
+MIIDLDCCAhSgAwIBAgIVAKxr332EVudjRIrBOrqMFIPg2iBHMA0GCSqGSIb3DQEB
+BQUAMBsxGTAXBgNVBAMTEGlkcC51dGRhbGxhcy5lZHUwHhcNMTAwNjA3MjA1NDQ1
+WhcNMzAwNjA3MjA1NDQ1WjAbMRkwFwYDVQQDExBpZHAudXRkYWxsYXMuZWR1MIIB
+IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoN7NLFiI35At7nZDk5hSXOYP
+I3PU8mlFpsOY4xeSr97ZoIEs2T8eyUIHJEN+XmWrpFeyBRWp5sYoSCUJcqMUTyXI
+DjwriDKvpYumdqk1tDTTXCA7jdC9uaMpXERXMuknOJrBSeMr+sN+R1YSD+YR/Dww
+KcOxOkulTgNLHv0wTspMrfDIobvlSEnWi0dRh3mnDWCCohoTeMs5MhsDuYlpLDYH
+YUlPmIw/79/tSkd3dV68y42FZKbKHorKUtKgv3zXzOzrIczp9MW9GHDRohpmamVm
+YgpaAsGDM3d4EmgZAThFNQAVeP+BDo+UASEEzbuBjnMn99x67Ka7heEQgiscpQID
+AQABo2cwZTBEBgNVHREEPTA7ghBpZHAudXRkYWxsYXMuZWR1hidodHRwczovL2lk
+cC51dGRhbGxhcy5lZHUvaWRwL3NoaWJib2xldGgwHQYDVR0OBBYEFF37bNekZX/P
+dczWcPYmwzFuT7w+MA0GCSqGSIb3DQEBBQUAA4IBAQBfVAtcXTBICrXjODHo00mx
+hMhZV4uK3QGwRhYWf0PhClq/8I4lipnVDKRmzgC4U8wLLh3msJxR4VqVLwycCSL8
+QxKYqkJJfnRlzEzhg/w8m7iYuiSdYSu4i62c3jGT0i3TGg3yCBk2cdgorf2tbAwD
+imYF2TFcPInUp7XGaxDf9nxw4z7NNsNVkUZBjl8WmmUwMtPNUDFDaw8HmVn0J2Wc
+BneDgHFOfFS2aYPeytiEEM7pLc6HaAunOLXymg6VBSKYkC+wUZdIl7otJrccXzqE
+RisCn91uRsbkcD1U5ziboM4m9h4sYC/RP7yrFAUt9XM/aAl5JCBD8A+hnx+R50IW
+                        </ds:X509Certificate>
+                    </ds:X509Data>
+            </ds:KeyInfo>
+
+        </KeyDescriptor>
+        <KeyDescriptor use="encryption">
+            <ds:KeyInfo>
+                    <ds:X509Data>
+                        <ds:X509Certificate>
+MIIDLDCCAhSgAwIBAgIVAJChteWgZI252scyEBfi39x9oF6dMA0GCSqGSIb3DQEB
+CwUAMBsxGTAXBgNVBAMMEGlkcC51dGRhbGxhcy5lZHUwHhcNMTYwNjA3MTQ1NjI1
+WhcNMzYwNjA3MTQ1NjI1WjAbMRkwFwYDVQQDDBBpZHAudXRkYWxsYXMuZWR1MIIB
+IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgV8EAVszufUZ5z9fhtiSDpcm
+3PQ2r8Q+XMFcxuiNdk1nfcRMHLARAIwGBx3lWRVAQPg0RHsT0FtajBnneet0tLNB
+b+r2irArZRL/19bLoxbakZKR7D8EOyd+Zbq9dFdX7evh4L3PlNJL+bXYNmZmxvk2
+MDieDOkc2ab5f6g/9DgRh9YJvkQ4eBAaPQ3DNcGbBO/LF3+ovRi5AmNeTdYX+LXo
+ksYmUnDoulhJTPxVfF8v6Teew+O/vBD4wOxyyp0fts+UGi2XPAUoiPvgLJ2xfYFa
+LyF422Jq6kPuBNMgM7UDn/zB9bwlhZB3R1jYYs3l4Wqx8aUIrBu2/FX82UaFewID
+AQABo2cwZTAdBgNVHQ4EFgQUc/3NRIZ6m+tbzwlf/prDw3t37VwwRAYDVR0RBD0w
+O4IQaWRwLnV0ZGFsbGFzLmVkdYYnaHR0cHM6Ly9pZHAudXRkYWxsYXMuZWR1L2lk
+cC9zaGliYm9sZXRoMA0GCSqGSIb3DQEBCwUAA4IBAQANQTyskLYH2EzgAIL6pZSZ
+Qm3R60+GBRegDFCQz0fXr/PAbZNwr3WkDsD8WnzxSW4Bsv+gH3I4aWwM9b1FBPoF
+XOyNOLyODCBFw0j65iGsMqJO2XHr35goBcThnPsSq5f1/8u05W8sAARgZmmyLfTF
+VF5/cai8XcJkh+/swaWc+TJTbakebIDs6098wHv+qHjfrjyuNLAvrkl0A02bFjwo
+s3fssKDSq+lo5kmCOul5zlSULMEh07PwnAA7vMHHUuO0CaH7T4OU8ENSVSfA2hq6
+CiwZ43entQ3+1PoWSEAiGdk0yK19wWCcZDoRkgVfji+jlW8Arc8A28RbMBi3pXi5
+                        </ds:X509Certificate>
+                    </ds:X509Data>
+            </ds:KeyInfo>
+
+        </KeyDescriptor>
+
+
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://idp.utdallas.edu/idp/profile/SAML2/POST/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="https://idp.utdallas.edu/idp/profile/SAML2/POST-SimpleSign/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.utdallas.edu/idp/profile/SAML2/Redirect/SSO"/>
+
+
+    </IDPSSODescriptor>
+
+    <Organization>
+
+        <OrganizationName xml:lang="en">University of Texas at Dallas</OrganizationName>
+        <OrganizationDisplayName xml:lang="en">University of Texas at Dallas</OrganizationDisplayName>
+        <OrganizationURL xml:lang="en">http://www.utdallas.edu/</OrganizationURL>
+
+    </Organization>
+
+    <ContactPerson contactType="technical">
+
+        <GivenName>UT Dallas SSO Administrators</GivenName>
+        <EmailAddress>sso-admins@utdallas.edu</EmailAddress>
+
+    </ContactPerson>
+
+    <ContactPerson contactType="support">
+
+        <GivenName>UT Dallas Identity Provider</GivenName>
+        <EmailAddress>identityprovider@utdallas.edu</EmailAddress>
+
+    </ContactPerson>
+
+</EntityDescriptor>
