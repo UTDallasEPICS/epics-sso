@@ -1,0 +1,9 @@
+.git/
+.env
+node_modules/
+.output/
+README.md
+Dockerfile
+.dockerignore
+.github
+certs
