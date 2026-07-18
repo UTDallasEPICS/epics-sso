@@ -68,22 +68,22 @@ app.get("/api/sso/metadata", (req, res) => {
 
 const loginQuerySchema = z.object({
 	client_id: z.string().min(1),
-	redirect_url: z.url(),
+	redirect_get_callback: z.url(),
 	state: z.string().min(1),
 	code_challenge: z.string().min(1),
 })
 
 app.get("/api/sso/login", validateQuery(loginQuerySchema), (req, res, next) => {
-	const { client_id, redirect_url, state, code_challenge } = req.validatedQuery
+	const { client_id, redirect_get_callback, state, code_challenge } = req.validatedQuery
 
 	const client = allowed_clients[client_id]
 
 	if (!client) return res.status(400).send("Client ID does not match any registered clients")
-	if (client.redirectURL !== redirect_url) return res.status(400).send("Redirect URL does not match registered redirect URL")
+	if (client.redirectGetCallback !== redirect_get_callback) return res.status(400).send("Redirect GET callback does not match registered redirect GET callback")
 
 	const transaction = createTransaction({
 		clientID: client_id,
-		redirectURL: redirect_url,
+		redirectGetCallback: redirect_get_callback,
 		state: state,
 		codeChallenge: code_challenge,
 	})
@@ -113,31 +113,31 @@ app.post(
 		const code = createCode({
 			clientID: transaction.clientID,
 
-			redirectURL: transaction.redirectURL,
+			redirectGetCallback: transaction.redirectGetCallback,
 
 			codeChallenge: transaction.codeChallenge,
 
 			user: req.user,
 		})
 
-		res.redirect(`${transaction.redirectURL}` + `?code=${code}` + `&state=${transaction.state}`)
+		res.redirect(`${transaction.redirectGetCallback}` + `?code=${code}` + `&state=${transaction.state}`)
 	},
 )
 
 const tokenRequestSchema = z.object({
 	client_id: z.string().min(1),
-	redirect_url: z.url(),
+	redirect_get_callback: z.url(),
 	code: z.string().min(1),
 	code_verifier: z.string().min(1),
 })
 
 app.post("/api/sso/token", (req, res) => {
-	const { client_id, redirect_url, code, code_verifier } = req.body
+	const { client_id, redirect_get_callback, code, code_verifier } = req.body
 
 	const auth = consumeCode(code)
 
 	if (!auth) return res.status(400).json({ error: "Invalid authorization code" })
-	if (auth.clientID !== client_id || auth.redirectURL !== redirect_url) return res.status(400).json({ error: "Invalid client or redirect URL" })
+	if (auth.clientID !== client_id || auth.redirectGetCallback !== redirect_get_callback) return res.status(400).json({ error: "Invalid client or redirect GET callback" })
 	if (!verifyPKCE(code_verifier, auth.codeChallenge)) return res.status(400).json({ error: "Invalid code verifier" })
 
 	const user = auth.user
