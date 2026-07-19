@@ -1,12 +1,12 @@
 import "dotenv/config"
 import express from "express"
 import passport from "passport"
-import { Strategy as SamlStrategy } from "passport-saml"
+import { Strategy as SamlStrategy } from "@node-saml/passport-saml"
 import { readFileSync } from "fs"
 import { getEnvVar, extractIdPSigningCert } from "./utils/helper.js"
 import { validateQuery } from "./utils/validate.js"
 import { verifyPKCE } from "./utils/pkce.js"
-import { createTransaction, consumeTransaction, createCode, consumeCode } from "./store.js"
+import { createTransaction, consumeTransaction, createCode, consumeCode, peekCode } from "./store.js"
 import { z } from "zod"
 
 import { allowed_clients } from "./allowed_clients.js"
@@ -56,8 +56,6 @@ passport.use(
 		},
 	),
 )
-
-const pendingRedirects = new Map()
 
 app.get("/api/sso/metadata", (req, res) => {
 	const strategy = passport._strategy("saml")
@@ -132,13 +130,20 @@ const tokenRequestSchema = z.object({
 })
 
 app.post("/api/sso/token", (req, res) => {
-	const { client_id, redirect_get_callback, code, code_verifier } = req.body
+	const result = tokenRequestSchema.safeParse(req.body)
 
-	const auth = consumeCode(code)
+	if (!result.success) {
+		return res.status(400).json({ error: "Invalid token request" })
+	}
+
+	const { client_id, redirect_get_callback, code, code_verifier } = result.data
+	const auth = peekCode(code)
 
 	if (!auth) return res.status(400).json({ error: "Invalid authorization code" })
 	if (auth.clientID !== client_id || auth.redirectGetCallback !== redirect_get_callback) return res.status(400).json({ error: "Invalid client or redirect GET callback" })
 	if (!verifyPKCE(code_verifier, auth.codeChallenge)) return res.status(400).json({ error: "Invalid code verifier" })
+
+	consumeCode(code)
 
 	const user = auth.user
 	const displayName = user.attributes.attributes["urn:oid:2.16.840.1.113730.3.1.241"] ?? ""

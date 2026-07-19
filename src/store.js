@@ -49,3 +49,13 @@ export const consumeCode = (code) => {
 
 	return value
 }
+
+export const peekCode = (code) => {
+	const value = codes.get(code)
+
+	if (!value) return null
+
+	if (value.expires < Date.now()) return null
+
+	return value
+}
