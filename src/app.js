@@ -28,7 +28,7 @@ passport.use(
 			entryPoint: `${getEnvVar("IDP_ENTRY_POINT")}`,
 			issuer: getEnvVar("EPICS_SSO_URL"),
 			audience: getEnvVar("EPICS_SSO_URL"),
-			cert: IdPSigningCert,
+			idpCert: IdPSigningCert,
 			// decryptionPvk: readFileSync(getEnvVar("DECRYPTION_PRIVATE_KEY_PATH"), "utf-8"),
 			decryptionPvk: readFileSync(getEnvVar("SIGNING_PRIVATE_KEY_PATH"), "utf-8"),
 			privateKey: readFileSync(getEnvVar("SIGNING_PRIVATE_KEY_PATH"), "utf-8"),
